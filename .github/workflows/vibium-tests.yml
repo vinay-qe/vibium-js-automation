@@ -1,8 +1,8 @@
 name: Vibium Automation
-on: [push, pull_request]
+on: [push]
 
 jobs:
-  browser-test:
+  run-vibium:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Code
@@ -14,37 +14,14 @@ jobs:
           node-version: '20'
 
       - name: Install Dependencies
-        # This will install vibium and download the required browser
         run: npm install
 
-      - name: Install Linux Dependencies
-        # Linux runners need these libraries to run Chrome/Chromium
+      - name: Install Linux Chrome & Display Dependencies
         run: |
           sudo apt-get update
-          sudo apt-get install -y libgbm1 libnss3 libatk-bridge2.0-0 libdrm2 libxkbcommon0 libxcomposite1 libxdamage1 libxfixes3 libxrandr2 libasound2t64
-    
-      - name: Install Linux Chrome Dependencies
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y \
-            libgbm1 \
-            libnss3 \
-            libatk-bridge2.0-0 \
-            libdrm2 \
-            libxkbcommon0 \
-            libxcomposite1 \
-            libxdamage1 \
-            libxfixes3 \
-            libxrandr2 \
-            libasound2t64
+          sudo apt-get install -y libgbm1 libnss3 libatk-bridge2.0-0 libdrm2 libxkbcommon0 libxcomposite1 libxdamage1 libxfixes3 libxrandr2 libasound2t64 xvfb
 
-      - name: Cleanup existing Chrome
-        run: pkill chrome || true
-
-      - name: Run Vibium Script
-        # Replace 'your-script.js' with your actual filename
-        env:
-          # This tells any Chromium process to skip the sandbox
-          QT_X11_NO_MITSHM: 1
-          _CHROME_STRATEGY: "no-sandbox"
-        run: node vibiumFirstTest.js
+      - name: Run Vibium with Virtual Display
+        # xvfb-run creates a virtual screen environment
+        # --auto-servernum prevents conflicts if multiple runs happen
+        run: xvfb-run --auto-servernum node vibiumFirstTest.js
