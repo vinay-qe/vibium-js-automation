@@ -1,0 +1,28 @@
+name: Vibium Automation
+on: [push, pull_request]
+
+jobs:
+  browser-test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install Dependencies
+        # This will install vibium and download the required browser
+        run: npm install
+
+      - name: Install Linux Dependencies
+        # Linux runners need these libraries to run Chrome/Chromium
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libgbm1 libnss3 libatk-bridge2.0-0 libdrm2 libxkbcommon0 libxcomposite1 libxdamage1 libxfixes3 libxrandr2 libasound2
+
+      - name: Run Vibium Script
+        # Replace 'your-script.js' with your actual filename
+        run: node vibiumFirstTest.js
