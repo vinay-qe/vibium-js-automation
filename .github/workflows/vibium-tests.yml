@@ -43,4 +43,8 @@ jobs:
 
       - name: Run Vibium Script
         # Replace 'your-script.js' with your actual filename
+        env:
+          # This tells any Chromium process to skip the sandbox
+          QT_X11_NO_MITSHM: 1
+          _CHROME_STRATEGY: "no-sandbox"
         run: node vibiumFirstTest.js
