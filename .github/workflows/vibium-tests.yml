@@ -21,7 +21,7 @@ jobs:
         # Linux runners need these libraries to run Chrome/Chromium
         run: |
           sudo apt-get update
-          sudo apt-get install -y libgbm1 libnss3 libatk-bridge2.0-0 libdrm2 libxkbcommon0 libxcomposite1 libxdamage1 libxfixes3 libxrandr2 libasound2
+          sudo apt-get install -y libgbm1 libnss3 libatk-bridge2.0-0 libdrm2 libxkbcommon0 libxcomposite1 libxdamage1 libxfixes3 libxrandr2 libasound2t64
 
       - name: Run Vibium Script
         # Replace 'your-script.js' with your actual filename
