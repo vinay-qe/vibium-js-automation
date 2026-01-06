@@ -1,9 +1,11 @@
-name: Vibium Automation
+name: Vibium Windows Automation
 on: [push]
 
 jobs:
-  run-vibium:
-    runs-on: ubuntu-latest
+  browser-test:
+    # Use 'windows-latest' instead of 'ubuntu-latest'
+    runs-on: windows-latest
+    
     steps:
       - name: Checkout Code
         uses: actions/checkout@v4
@@ -14,14 +16,10 @@ jobs:
           node-version: '20'
 
       - name: Install Dependencies
+        # On Windows, this will install Vibium and download Chrome to %LOCALAPPDATA%
         run: npm install
 
-      - name: Install Linux Chrome & Display Dependencies
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y libgbm1 libnss3 libatk-bridge2.0-0 libdrm2 libxkbcommon0 libxcomposite1 libxdamage1 libxfixes3 libxrandr2 libasound2t64 xvfb
-
-      - name: Run Vibium with Virtual Display
-        # xvfb-run creates a virtual screen environment
-        # --auto-servernum prevents conflicts if multiple runs happen
-        run: xvfb-run --auto-servernum node vibiumFirstTest.js
+      - name: Run Vibium Script
+        # PowerShell is the default shell on Windows runners
+        run: node vibiumFirstTest.js
+    
