@@ -2,7 +2,8 @@ const fs= require('fs');
 const {browserSync} = require('vibium');
 
 // Launch a new browser using Vibium
-const vibe = browserSync.launch({ headless: true });
+const vibe = browserSync.launch({ headless: true,
+  args: ['--no-sandbox', '--disable-setuid-sandbox'] });
 
 vibe.go('https://www.saucedemo.com/');
 
